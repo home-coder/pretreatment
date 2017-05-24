@@ -12,5 +12,8 @@ c语言的预处理，包含宏定义的多种技巧，包含条件编译#ifdef�
 #2.1 #define dprintk(level_mask, fmt, arg...)    if (unlikely(debug_mask & level_mask)) \
     printk(KERN_DEBUG fmt , ## arg)
 
-#3. 最终能够模仿http://blog.csdn.net/njuitjf/article/details/16849333里面的DEVICE_ATTR的实现方式来实现一个自己的宏，
+#3. 最终能够模仿
+http://blog.csdn.net/njuitjf/article/details/16849333
+里面的DEVICE_ATTR的实现方式来实现一个自己的宏，
 并具有一定的功能。当然不是和DEVICE_ATTR一样的宏，要领会其奥义，然后根据自己将来的需求创造一个宏函数
+在应用层先模仿DEVICE_ATTR的东西，直接写出一个相关的测试应用来，并且举一反三的定义几个跟这个宏差不多经典的自定义宏
