@@ -76,6 +76,46 @@ int main()
 	}
 
 //------------------复杂的预处理------------------------------
+//7. # 将宏参数字符串化
+	{
+#define DEBUG(string) #string
+		printf("%s\n", DEBUG(helloworld));
+	}
+
+//8. ## 连接符，将宏参数或者其他的串连接到一起
+	{
+#define __stringify(x...) #x
+		printf("%s\n", __stringify(hello world));
+
+typedef int mode_t;
+
+		struct device {
+			int no;
+		};
+
+		struct attribute {
+			const char        *name;
+			struct module     *owner;
+			mode_t            mode;
+		};
+
+		struct device_attribute {
+			struct attribute attr;
+			ssize_t (*show)(struct device *dev, struct device_attribute *attr,
+					char *buf);
+			ssize_t (*store)(struct device *dev, struct device_attribute *attr,
+					const char *buf, size_t count);
+		};
+
+#define __ATTR(_name,_mode,_show,_store) { \
+	.attr = {.name = __stringify(_name), .mode = _mode }, \
+	.show = _show,     \
+	.store = _store,     \
+	}
+
+#define DEVICE_ATTR(_name, _mode, _show, _store) \
+	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+}
 
 	return 0;
 }
