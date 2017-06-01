@@ -1,5 +1,36 @@
 #include <stdio.h>
 
+typedef int mode_t;
+
+struct device {
+	int no;
+};
+
+struct attribute {
+	const char        *name;
+	struct module     *owner;
+	mode_t            mode;
+};
+
+struct device_attribute {
+	struct attribute attr;
+	ssize_t (*show)(struct device *dev, struct device_attribute *attr,
+			char *buf);
+	ssize_t (*store)(struct device *dev, struct device_attribute *attr,
+			const char *buf, size_t count);
+};
+
+ssize_t yang_show(struct device *dev, struct device_attribute *attr,
+		char *buf)
+{
+	return 0;
+}
+
+ssize_t yang_store(struct device *dev, struct device_attribute *attr,
+		const char *buf, size_t count)
+{
+	return 0;
+}
 int main()
 {
 //----------------------简单预处理-----------------------------
@@ -87,26 +118,6 @@ int main()
 #define __stringify(x...) #x
 		printf("%s\n", __stringify(hello world));
 
-typedef int mode_t;
-
-		struct device {
-			int no;
-		};
-
-		struct attribute {
-			const char        *name;
-			struct module     *owner;
-			mode_t            mode;
-		};
-
-		struct device_attribute {
-			struct attribute attr;
-			ssize_t (*show)(struct device *dev, struct device_attribute *attr,
-					char *buf);
-			ssize_t (*store)(struct device *dev, struct device_attribute *attr,
-					const char *buf, size_t count);
-		};
-
 #define __ATTR(_name,_mode,_show,_store) { \
 	.attr = {.name = __stringify(_name), .mode = _mode }, \
 	.show = _show,     \
@@ -114,7 +125,9 @@ typedef int mode_t;
 	}
 
 #define DEVICE_ATTR(_name, _mode, _show, _store) \
-	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
+	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store);
+
+	DEVICE_ATTR(yang, 0755, yang_show, yang_store);
 }
 
 	return 0;
