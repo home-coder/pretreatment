@@ -125,7 +125,7 @@ int main()
 	}
 
 #define DEVICE_ATTR(_name, _mode, _show, _store) \
-	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store);
+	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
 
 	DEVICE_ATTR(yang, 0755, yang_show, yang_store);
 }
