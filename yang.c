@@ -128,7 +128,20 @@ int main()
 	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
 
 	DEVICE_ATTR(yang, 0755, yang_show, yang_store);
-}
+	}
+//9. 取消移植函数中的无关项
+	{
+#ifndef spin_lock_irqsave
+#define spin_lock_irqsave(x, y)
+#endif
+#ifndef spin_unlock_irqrestore
+#define spin_unlock_irqrestore(x, y)
+#endif
+		unsigned long flags, lock;
+		spin_lock_irqsave(lock, flags);
+		printf("spin is unseful\n");
+		spin_unlock_irqrestore(lock, flags);
 
+	}
 	return 0;
 }
