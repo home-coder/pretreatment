@@ -34,6 +34,12 @@ ssize_t yang_store(struct device *dev, struct device_attribute *attr,
 int main()
 {
 //----------------------简单预处理-----------------------------
+//0. define
+	{
+#define HELLO hello
+		printf("不想要  $HELLO\n");
+	}
+
 //1. normal
 	{
 #if __WIN32__
@@ -126,9 +132,27 @@ int main()
 
 #define DEVICE_ATTR(_name, _mode, _show, _store) \
 	struct device_attribute dev_attr_##_name = __ATTR(_name, _mode, _show, _store)
-
 	DEVICE_ATTR(yang, 0755, yang_show, yang_store);
 	}
+
+//10.DEBUG相关的宏定义
+{
+#ifdef ANDROID
+#include <android/log.h>
+#define  LOGI(...) __android_log_print (ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define  LOGE(...) __android_log_print (ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#endif
+
+#define DEBUGINFO
+#ifdef DEBUGINFO
+#define dbgprint(format,args...) ({ \
+		fprintf (stderr, "[%s] <%d>-->", __func__, __LINE__); \
+		fprintf(stderr, format, ##args);})
+#else
+#define dbgprint(format,args...)
+#endif
+	dbgprint("debug %s\n", "yes debug");
+}
 //9. 取消移植函数中的无关项
 	{
 #ifndef spin_lock_irqsave
